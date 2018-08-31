@@ -113,15 +113,22 @@ server.post("/projects", (req, res) => {
 
 server.post("/actions", (req, res) => {
   const description = req.body.description;
+  const notes = req.body.notes; 
+  const project_id = req.body.project_id; 
   if (description.length === 0) {
+    res.status(400).json({ message: "Description must be entered" });
+  }
+  if (notes.length === 0) {
+    res.status(400).json({ message: "Description must be entered" });
+  }
+  if (project_id.length === 0) {
     res.status(400).json({ message: "Description must be entered" });
   }
   console.log(description);
   actions
-    .insert({ description })
+    .insert({ description, notes, project_id })
     .then(response => {
       res.json(response);
-      console.log("fbek")
     })
     .catch(err => {
       console.log("error", err);
