@@ -113,17 +113,15 @@ server.post("/projects", (req, res) => {
 
 server.post("/actions", (req, res) => {
   const description = req.body.description;
-  const notes = req.body.notes;
   if (description.length === 0) {
     res.status(400).json({ message: "Description must be entered" });
   }
-  if (notes.length === 0) {
-    res.status(400).json({ message: "Notes must be entered" });
-  }
+  console.log(description);
   actions
-    .insert({ description, notes })
+    .insert({ description })
     .then(response => {
       res.json(response);
+      console.log("fbek")
     })
     .catch(err => {
       console.log("error", err);
@@ -132,21 +130,21 @@ server.post("/actions", (req, res) => {
     });
 });
 
-server.put('/projects/:id', (req, res)=>{
-    projects.update(req.params.id, req.body)
-    .then(project=>{
-        res.status(200).json(project); 
+server.put("/projects/:id", (req, res) => {
+  projects
+    .update(req.params.id, req.body)
+    .then(project => {
+      res.status(200).json(project);
     })
-    .catch(err => res.status(500).json({message:"Update Failed"}))
-
-})
-server.put('/actions/:id', (req, res)=>{
-    actions.update(req.params.id, req.body)
-    .then(action=>{
-        res.status(200).json(action); 
+    .catch(err => res.status(500).json({ message: "Update Failed" }));
+});
+server.put("/actions/:id", (req, res) => {
+  actions
+    .update(req.params.id, req.body)
+    .then(action => {
+      res.status(200).json(action);
     })
-    .catch(err => res.status(500).json({message:"Update Failed"}))
-
-})
+    .catch(err => res.status(500).json({ message: "Update Failed" }));
+});
 
 server.listen(4001, () => console.log("server 4001 started"));
